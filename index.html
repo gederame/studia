@@ -1,0 +1,538 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>StudIA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap">
+<style>
+/* Layout : salle noire, un grand écran bleu diffus en ouverture et en clôture ; entre les deux, du texte calme sur noir, filets fins. Un seul look sombre, assumé. */
+:root {
+  --black: #050507;
+  --text: #f2f3f7;
+  --muted: #8d90a3;
+  --rule: #1d1f2a;
+  --cobalt: #2532c9;
+  --haze: #7d84d6;
+  --sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font: 400 17px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Écran bleu */
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background:
+    radial-gradient(60% 70% at 30% 35%, rgba(125, 132, 214, 0.75), transparent 70%),
+    radial-gradient(45% 55% at 62% 62%, rgba(10, 12, 40, 0.85), transparent 72%),
+    radial-gradient(50% 60% at 88% 85%, rgba(125, 132, 214, 0.55), transparent 70%),
+    var(--cobalt);
+  color: #fff;
+}
+.screen::after {
+  content: "";
+  position: absolute; inset: 0;
+  backdrop-filter: blur(0);
+  background: radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+.hero .screen { border-radius: 0; }
+.hero .screen > .wrap {
+  position: relative; z-index: 1;
+  min-height: min(480px, 50vw);
+  padding-block: 48px 32px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 56px;
+}
+h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(38px, 6.4vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  max-width: 14ch;
+  text-wrap: balance;
+}
+.hero-foot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.hero-foot p { margin: 0; max-width: 38ch; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.4; color: rgba(255, 255, 255, 0.88); }
+.sig { font-size: 17px; line-height: 1.4; text-align: right; color: rgba(255, 255, 255, 0.85); }
+.sig strong { display: block; font-weight: 500; font-size: 27px; letter-spacing: -0.03em; color: #fff; }
+.provisoire { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+
+/* Faits */
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-block: 36px; border-bottom: 1px solid var(--rule); }
+.facts div { min-width: 0; }
+.label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.facts strong { font-weight: 400; font-size: 19px; letter-spacing: -0.02em; }
+
+/* Sections */
+section.block { display: grid; grid-template-columns: 240px 1fr; gap: 32px; padding-block: 64px; border-bottom: 1px solid var(--rule); }
+section.block > * { min-width: 0; }
+h2 { margin: 0; font-weight: 400; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -0.04em; text-wrap: balance; }
+.side { color: var(--muted); font-size: 15px; padding-top: 10px; }
+.lead { margin: 16px 0 0; color: var(--muted); max-width: 58ch; }
+
+.compare { margin-top: 36px; }
+.c-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 24px; padding-block: 12px; border-top: 1px solid var(--rule); }
+.c-row > * { min-width: 0; }
+.c-head { border-top: 0; padding-block: 0 8px; font-size: 15px; font-weight: 500; color: var(--muted); }
+.c-head .us { color: var(--haze); }
+.c-label { color: var(--muted); font-size: 15px; }
+.c-them { color: var(--muted); }
+.c-row i { display: none; font-style: normal; }
+
+.formats { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.formats article { border-top: 1px solid var(--text); padding-top: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.formats h3 { margin: 0; font-weight: 500; font-size: 20px; letter-spacing: -0.02em; }
+.formats p { margin: 0; color: var(--muted); }
+.formats .access { color: var(--text); font-size: 15px; }
+
+.formats.tracks { grid-template-columns: 1fr 1fr; }
+/* Ordinateur : exemples en deux listes (stands, workshops) ; téléphone : exemples sous chaque format, en carrousel */
+.ideas-groups { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.ideas-group { min-width: 0; }
+.ideas-title { display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--haze); }
+.ideas { margin: 12px 0 0; padding: 0; list-style: none; }
+.ideas li { padding-block: 14px; border-top: 1px solid var(--rule); display: grid; gap: 2px; }
+.ideas strong { font-weight: 500; font-size: 17px; letter-spacing: -0.02em; }
+.ideas span { color: var(--muted); }
+@media (max-width: 820px) { .ideas-groups { grid-template-columns: 1fr; } }
+@media (min-width: 561px) { .ex { display: none; } }
+@media (max-width: 560px) { .ideas-groups { display: none; } }
+.ex { list-style: none; margin: 12px 0 0; padding: 0; }
+.ex li { display: grid; gap: 2px; padding-block: 10px; border-top: 1px solid var(--rule); }
+.ex strong { font-weight: 500; font-size: 16px; }
+.ex span { color: var(--muted); font-size: 15px; }
+
+/* Dosage selon le niveau : un dégradé du bleu clair (métiers) au cobalt (apprendre avec l'IA) */
+.scale { margin-top: 36px; display: grid; gap: 16px; }
+.scale-ends { display: flex; justify-content: space-between; gap: 16px; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--haze); }
+.scale-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--haze), var(--cobalt)); }
+.scale-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.scale-levels div { min-width: 0; border-top: 1px solid var(--rule); padding-top: 14px; display: grid; gap: 4px; align-content: start; }
+.scale-levels strong { font-weight: 500; font-size: 18px; letter-spacing: -0.02em; }
+.scale-levels span { color: var(--muted); font-size: 15px; }
+.scale-note { margin: 8px 0 0; color: var(--muted); max-width: 58ch; }
+@media (max-width: 820px) { .scale-levels { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) {
+  .scale-ends { font-size: 12px; }
+  .scale-levels { grid-template-columns: 1fr; gap: 0; }
+  .scale-levels div { padding-block: 12px; }
+}
+
+.rows { list-style: none; margin: 28px 0 0; padding: 0; }
+.rows li { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding-block: 16px; border-top: 1px solid var(--rule); }
+.rows li > * { min-width: 0; }
+.rows span { color: var(--muted); }
+.rows a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--haze); }
+.rows a:hover, .rows a:focus-visible { border-bottom-color: var(--text); outline: none; }
+
+/* Contact */
+.contact { margin-top: 64px; }
+.contact .screen { border-radius: 0; }
+.contact .screen > .wrap { position: relative; z-index: 1; padding-block: clamp(48px, 7vw, 88px) 28px; display: grid; gap: 56px; }
+.contact-main { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: end; }
+.contact-main > * { min-width: 0; }
+.contact h2 { color: #fff; }
+.contact p { margin: 14px 0 0; max-width: 44ch; color: rgba(255, 255, 255, 0.88); }
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.person { display: grid; gap: 2px; color: rgba(255, 255, 255, 0.85); font-size: 15px; overflow-wrap: anywhere; }
+.person strong { font-weight: 500; font-size: 18px; letter-spacing: -0.02em; color: #fff; margin-bottom: 4px; }
+.person a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); width: fit-content; }
+.person a:hover, .person a:focus-visible { border-bottom-color: #fff; outline: none; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.25); font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+.foot a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+.foot a:hover, .foot a:focus-visible { border-bottom-color: #fff; outline: none; }
+
+@media (max-width: 820px) {
+  .facts { grid-template-columns: 1fr 1fr; }
+  section.block { grid-template-columns: 1fr; gap: 8px; }
+  .formats { grid-template-columns: 1fr; gap: 24px; }
+  .c-head { display: none; }
+  .c-row { grid-template-columns: 1fr; gap: 8px; padding-block: 16px; }
+  .c-label { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .c-row i { display: block; font-size: 13px; margin-bottom: 2px; color: var(--muted); }
+  .c-us i { color: var(--haze); }
+  .c-them, .c-us { padding-left: 12px; border-left: 2px solid var(--rule); }
+  .c-us { border-left-color: var(--haze); }
+  .side { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--haze); }
+  .formats.tracks { grid-template-columns: 1fr; }
+  .rows li { grid-template-columns: 1fr; gap: 2px; }
+  .contact-main { grid-template-columns: 1fr; }
+  .sig { text-align: left; }
+}
+
+.swipe { display: none; align-items: center; gap: 6px; margin: 28px 0 0; font-size: 13px; color: var(--muted); }
+.swipe b { font-weight: 500; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--haze); }
+.swipe .arrow { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .swipe .arrow { animation: nudge 1.6s ease-in-out infinite; }
+  @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+}
+.dots { display: none; gap: 6px; margin-top: 12px; }
+.dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); transition: background 0.2s, width 0.2s; }
+.dots span.on { width: 18px; border-radius: 3px; background: var(--haze); }
+
+/* Téléphone */
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .hero .screen > .wrap { min-height: 0; padding-block: 40px 28px; gap: 40px; }
+  h1 { font-size: clamp(34px, 10vw, 44px); }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero-foot p { font-size: 17px; }
+  .sig strong { font-size: 23px; }
+  .facts { grid-template-columns: 1fr 1fr; gap: 20px 16px; padding-block: 28px; }
+  .facts strong { font-size: 16px; }
+  section.block { padding-block: 44px; }
+  h2 { font-size: 26px; }
+  .side { padding-top: 0; font-size: 14px; }
+  .compare, .formats { margin-top: 28px; }
+  .contact { margin-top: 44px; }
+  .contact .screen > .wrap { padding-block: 44px 24px; gap: 36px; }
+  .people { grid-template-columns: 1fr; gap: 20px; }
+  .foot { flex-direction: column; }
+
+  /* Exemples en carrousel : la carte suivante dépasse pour inviter au geste */
+  .swipe, .dots { display: flex; }
+  .ex {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+    margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    scroll-padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .ex::-webkit-scrollbar { display: none; }
+  .ex li {
+    flex: 0 0 72%;
+    scroll-snap-align: start;
+    border: 1px solid #262a3a;
+    border-radius: 10px;
+    background: #0d0f18;
+    padding: 18px 16px;
+    gap: 6px;
+    align-content: start;
+  }
+  .ex strong { font-size: 17px; }
+
+  /* Comparatif en cartes : un critère par carte */
+  .compare {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+    margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    scroll-padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .compare::-webkit-scrollbar { display: none; }
+  .compare .c-row {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+    border: 1px solid #262a3a;
+    border-radius: 10px;
+    background: #0d0f18;
+    padding: 18px 16px;
+    gap: 14px;
+    align-content: start;
+  }
+  .compare .c-head { display: none; }
+  .formats { gap: 44px; }
+  .formats article + article { padding-top: 20px; }
+}
+</style>
+
+<style>
+/* Impression et PDF : page au format A4 agrandie, pour garder la mise en page ordinateur */
+@page { size: 1120px 1584px; margin: 0; }
+@media print {
+  html, body { background: var(--black); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .scale-levels { grid-template-columns: repeat(4, 1fr) !important; }
+  .contact, .facts, .scale, .formats article, .ideas li, .c-row, .rows li, .compare, .ideas-groups, section.block > div > h2, .lead { break-inside: avoid; }
+  h2, .lead { break-after: avoid; }
+  .swipe, .dots, .ex { display: none !important; }
+  .ideas-groups { display: grid !important; grid-template-columns: 1fr 1fr !important; margin-top: 32px; }
+  .wrap { max-width: none; padding-left: 56px !important; padding-right: 56px !important; }
+  .hero .screen > .wrap { min-height: 0; padding-block: 44px 32px; gap: 40px; }
+  .facts { grid-template-columns: repeat(4, 1fr) !important; padding-block: 24px; }
+  section.block { grid-template-columns: 200px 1fr !important; gap: 32px !important; padding-block: 32px; }
+  .side { font-size: 15px !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--muted) !important; padding-top: 10px !important; }
+  .formats { grid-template-columns: repeat(3, 1fr) !important; gap: 32px !important; margin-top: 24px; }
+  .formats.tracks { grid-template-columns: 1fr 1fr !important; }
+  .compare { display: block !important; margin: 24px 0 0 !important; padding: 0 !important; overflow: visible !important; }
+  .compare .c-row, .c-row { display: grid !important; grid-template-columns: 140px 1fr 1fr !important; gap: 24px !important; padding: 10px 0 !important; border: 0 !important; border-top: 1px solid var(--rule) !important; border-radius: 0 !important; background: none !important; }
+  .compare .c-head { display: grid !important; border-top: 0 !important; }
+  .c-row i { display: none !important; }
+  .c-them, .c-us { padding-left: 0 !important; border-left: 0 !important; }
+  .c-label { font-size: 15px !important; letter-spacing: 0 !important; text-transform: none !important; }
+  .rows li { grid-template-columns: 260px 1fr !important; gap: 24px !important; padding-block: 12px; }
+  .contact { margin-top: 0; }
+  .contact-main { grid-template-columns: 1.1fr 1fr !important; }
+  .contact .screen > .wrap { padding-block: 48px 24px; gap: 40px; }
+  .sig { text-align: right !important; }
+}
+</style>
+
+<header class="hero">
+  <div class="screen">
+    <div class="wrap">
+      <h1>Apprendre l'IA en la pratiquant</h1>
+      <div class="hero-foot">
+        <p>Une journée à Lausanne où des classes viennent découvrir l'IA par la pratique : des stands où l'on circule librement, des workshops concrets, et des professionnels qui montrent comment l'IA change déjà leur métier.</p>
+        <div class="sig"><strong>StudIA</strong>Mai 2027 · Lausanne<br><span class="provisoire">Nom provisoire</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="facts">
+    <div><span class="label">Quand</span><strong>Mai 2027</strong></div>
+    <div><span class="label">Où</span><strong>Lausanne</strong></div>
+    <div><span class="label">Pour qui</span><strong>Élèves et étudiants, venus avec leur classe</strong></div>
+    <div><span class="label">Organisé par</span><strong>Business Team Academy, HES-SO Valais</strong></div>
+  </div>
+
+  <section class="block">
+    <div class="side">L'intention</div>
+    <div>
+      <h2>Deux questions pour chaque élève</h2>
+      <p class="lead">Les élèves utilisent déjà l'IA, souvent seuls et sans recul, et les métiers qu'ils visent sont en train de changer. Nous voulons démystifier l'IA et en montrer les opportunités autant que les risques.</p>
+      <div class="formats tracks">
+        <article>
+          <h3>Apprendre avec l'IA</h3>
+          <p>S'en servir pour réviser, comprendre et s'organiser, sans tout lui déléguer : poser les bonnes questions, vérifier, rester l'auteur de son travail.</p>
+        </article>
+        <article>
+          <h3>Mon futur métier</h3>
+          <p>Voir comment l'IA transforme les métiers que les élèves visent, de la comptabilité à la communication : ce qui disparaît, ce qui apparaît, et les compétences qui comptent.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="side">Selon le niveau</div>
+    <div>
+      <h2>Un dosage qui suit l'âge des élèves</h2>
+      <p class="lead">Les deux volets sont présents pour toutes les classes, mais leur part change selon le niveau. Plus les élèves sont jeunes, plus la journée parle de métiers. Plus ils avancent dans leurs études, plus elle porte sur l'apprentissage avec l'IA.</p>
+      <div class="scale" role="img" aria-label="Plus le niveau monte, plus la journée penche des métiers vers l'apprentissage avec l'IA">
+        <div class="scale-ends"><span>Plus de métiers</span><span>Plus d'apprentissage avec l'IA</span></div>
+        <div class="scale-bar"></div>
+        <div class="scale-levels">
+          <div><strong>Cycle</strong><span>Le choix d'une voie approche. L'accent est mis sur les métiers et sur ce que l'IA y change.</span></div>
+          <div><strong>École de commerce, ECG</strong><span>Le métier est déjà en vue. On voit comment l'IA le transforme et on commence à s'en servir.</span></div>
+          <div><strong>Gymnase, collège</strong><span>Les études passent avant le métier. Les workshops pour apprendre avec l'IA prennent plus de place.</span></div>
+          <div><strong>HES</strong><span>Les étudiants travaillent avec l'IA chaque jour. La journée porte surtout sur la façon de bien apprendre avec elle.</span></div>
+        </div>
+      </div>
+      <p class="scale-note">Ce dosage n'est pas figé. Vos réponses nous diront quel niveau viser en priorité et où placer le curseur.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="side">Le concept</div>
+    <div>
+      <h2>Trois façons de vivre la journée</h2>
+      <p class="lead">Le format s'inspire des journées des métiers : on arrive avec sa classe, on circule librement, et chaque élève repart avec quelque chose de concret.</p>
+      <div class="formats">
+        <article>
+          <h3>La foire</h3>
+          <p>Des stands où l'on teste, on joue et on pose ses questions. Des professionnels y montrent comment ils travaillent avec l'IA aujourd'hui et ce que leur métier va devenir.</p>
+          <p class="access">En accès libre pour les classes inscrites</p>
+          <p class="swipe" aria-hidden="true"><b>Exemples de stands</b> · glissez <span class="arrow">→</span></p>
+          <ul class="ex" aria-label="Exemples de stands">
+            <li><strong>Mon métier avec l'IA</strong><span>Un comptable, une graphiste, un ingénieur montrent leur quotidien avec l'IA</span></li>
+            <li><strong>IA ou pas&nbsp;?</strong><span>Deviner ce qui a été généré par une IA</span></li>
+            <li><strong>Où vont mes données&nbsp;?</strong><span>Un parcours ludique sur la vie privée</span></li>
+            <li><strong>Stands des entreprises partenaires</strong><span>Les partenaires de l'événement présentent leurs outils et leurs projets IA</span></li>
+          </ul>
+          <div class="dots" aria-hidden="true"></div>
+        </article>
+        <article>
+          <h3>Les workshops</h3>
+          <p>Une session en petit groupe avec un expert. Chaque élève choisit ses workshops à l'avance, grâce à un lien envoyé à sa classe, et repart avec un livrable concret.</p>
+          <p class="access">3 à 5 workshops, construits à partir des questions des élèves</p>
+          <p class="swipe" aria-hidden="true"><b>Exemples de workshops</b> · glissez <span class="arrow">→</span></p>
+          <ul class="ex" aria-label="Exemples de workshops">
+            <li><strong>Transformer un cours en quiz</strong><span>Réviser autrement</span></li>
+            <li><strong>Construire son second cerveau</strong><span>Organiser ses notes avec l'IA</span></li>
+            <li><strong>Mon métier dans cinq ans</strong><span>Explorer avec l'IA l'avenir du métier qui m'attire</span></li>
+          </ul>
+          <div class="dots" aria-hidden="true"></div>
+        </article>
+        <article>
+          <h3>Les prises de parole</h3>
+          <p>Un moment court où toute la salle se retrouve : des entreprises et des acteurs de l'éducation échangent sur les métiers de demain, puis chacun retourne aux stands.</p>
+          <p class="access">Pour tous les participants</p>
+        </article>
+      </div>
+      <div class="ideas-groups">
+        <div class="ideas-group">
+          <span class="ideas-title">Exemples de stands</span>
+          <ul class="ideas" aria-label="Exemples de stands">
+            <li><strong>Mon métier avec l'IA</strong><span>Un comptable, une graphiste, un ingénieur montrent leur quotidien avec l'IA</span></li>
+            <li><strong>IA ou pas&nbsp;?</strong><span>Deviner ce qui a été généré par une IA</span></li>
+            <li><strong>Où vont mes données&nbsp;?</strong><span>Un parcours ludique sur la vie privée</span></li>
+            <li><strong>Stands des entreprises partenaires</strong><span>Les partenaires de l'événement présentent leurs outils et leurs projets IA</span></li>
+          </ul>
+        </div>
+        <div class="ideas-group">
+          <span class="ideas-title">Exemples de workshops</span>
+          <ul class="ideas" aria-label="Exemples de workshops">
+            <li><strong>Transformer un cours en quiz</strong><span>Réviser autrement</span></li>
+            <li><strong>Construire son second cerveau</strong><span>Organiser ses notes avec l'IA</span></li>
+            <li><strong>Mon métier dans cinq ans</strong><span>Explorer avec l'IA l'avenir du métier qui m'attire</span></li>
+          </ul>
+        </div>
+      </div>
+      <script>
+        (function () {
+          var lists = document.querySelectorAll('.ex, .compare');
+          Array.prototype.forEach.call(lists, function (list) {
+            var dots = list.nextElementSibling;
+            if (!dots || !dots.classList.contains('dots')) return;
+            var items = Array.prototype.filter.call(list.children, function (el) { return !el.classList.contains('c-head'); });
+            for (var i = 0; i < items.length; i++) dots.appendChild(document.createElement('span'));
+            function update() {
+              var step = items[0] ? items[0].getBoundingClientRect().width + 12 : 1;
+              var idx = Math.round(list.scrollLeft / step);
+              if (list.scrollLeft + list.clientWidth >= list.scrollWidth - 4) idx = items.length - 1;
+              for (var j = 0; j < dots.children.length; j++) dots.children[j].classList.toggle('on', j === Math.min(idx, items.length - 1));
+            }
+            list.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+          });
+        })();
+      </script>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="side">Positionnement</div>
+    <div>
+      <h2>Ce que les autres événements IA ne font pas</h2>
+      <p class="lead">Nous avons recensé les événements IA prévus en Suisse d'octobre 2026 à juin 2027. Presque aucun ne s'adresse aux élèves et aux étudiants, et presque aucun ne les fait pratiquer.</p>
+      <p class="swipe" aria-hidden="true">Glissez <span class="arrow">→</span></p>
+      <div class="compare" role="table" aria-label="L'offre actuelle comparée à StudIA">
+        <div class="c-row c-head" role="row">
+          <span role="columnheader"></span>
+          <span role="columnheader">L'offre actuelle</span>
+          <span role="columnheader" class="us">StudIA</span>
+        </div>
+        <div class="c-row" role="row">
+          <span class="c-label" role="rowheader">Public</span>
+          <span class="c-them" role="cell"><i>Aujourd'hui</i>Des décideurs et des experts, souvent sur invitation</span>
+          <span class="c-us" role="cell"><i>Chez nous</i>Des élèves et des étudiants, venus avec leur classe</span>
+        </div>
+        <div class="c-row" role="row">
+          <span class="c-label" role="rowheader">Sujet</span>
+          <span class="c-them" role="cell"><i>Aujourd'hui</i>L'IA pour les entreprises</span>
+          <span class="c-us" role="cell"><i>Chez nous</i>L'IA dans les études et dans les métiers de demain</span>
+        </div>
+        <div class="c-row" role="row">
+          <span class="c-label" role="rowheader">Lieu et langue</span>
+          <span class="c-them" role="cell"><i>Aujourd'hui</i>En anglais, à Zurich ou à Genève</span>
+          <span class="c-us" role="cell"><i>Chez nous</i>En français, à Lausanne</span>
+        </div>
+        <div class="c-row" role="row">
+          <span class="c-label" role="rowheader">Prix</span>
+          <span class="c-them" role="cell"><i>Aujourd'hui</i>Plusieurs centaines de francs la journée</span>
+          <span class="c-us" role="cell"><i>Chez nous</i>Gratuit ou subventionné pour les écoles</span>
+        </div>
+        <div class="c-row" role="row">
+          <span class="c-label" role="rowheader">Format</span>
+          <span class="c-them" role="cell"><i>Aujourd'hui</i>Des tables rondes à écouter</span>
+          <span class="c-us" role="cell"><i>Chez nous</i>On pratique et on repart avec une création</span>
+        </div>
+      </div>
+      <div class="dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="side">Votre avis</div>
+    <div>
+      <h2>Ce que nous aimerions savoir</h2>
+      <p class="lead">Avant d'aller plus loin, nous voulons vérifier que le projet répond à un vrai besoin des écoles et de leurs élèves.</p>
+      <ul class="rows">
+        <li><strong>Est-ce pertinent pour vos élèves&nbsp;?</strong><span>Et ce qu'il faudrait changer pour que vous ayez envie d'y venir avec une classe.</span></li>
+        <li><strong>Pour quel niveau&nbsp;?</strong><span>Cycle, école de commerce, gymnase, apprentissage ou HES : là où cela aurait le plus de sens, et le dosage entre métiers et apprentissage qui vous semble juste.</span></li>
+        <li><strong>Quelles questions se posent vos élèves&nbsp;?</strong><span>Sur l'IA, leurs études et leur futur métier. Ce sont elles qui feront le programme des workshops.</span></li>
+        <li><strong>Est-ce faisable pour vous&nbsp;?</strong><span>Une journée en mai, un déplacement à Lausanne : les contraintes de calendrier et d'organisation à prévoir.</span></li>
+        <li><strong>Pourrions-nous sonder une classe&nbsp;?</strong><span>Un court questionnaire papier, pour entendre directement les élèves.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="side">Pourquoi nous</div>
+    <div>
+      <h2>La génération qui apprend déjà avec l'IA</h2>
+      <ul class="rows">
+        <li><strong>Une équipe d'étudiants</strong><span>Des étudiants de la Business Team Academy, qui forme des entrepreneurs par des projets réels.</span></li>
+        <li><strong>Déjà sur le terrain</strong><span>La BTA a co-organisé le <a href="https://www.foireduvalais.ch/fr/hack-vs/" target="_blank" rel="noopener">Hack VS</a>, un hackathon de 24 heures à la Foire du Valais en octobre 2026.</span></li>
+        <li><strong>Un anniversaire</strong><span>La BTA fête ses 10 ans en 2027. Nous en profitons pour organiser un grand événement tourné vers les jeunes.</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="contact">
+  <div class="screen">
+    <div class="wrap">
+      <div class="contact-main">
+        <div>
+          <h2>Parlons-en</h2>
+          <p>Un bref échange, par téléphone ou dans votre école, nous aiderait beaucoup. Vos remarques, même critiques, nous font avancer.</p>
+        </div>
+        <div class="people">
+          <div class="person">
+            <strong>Samuel Romeira</strong>
+            <span>Co-chef de projet</span>
+            <a href="mailto:samuel.romeira@hes-so.ch">samuel.romeira@hes-so.ch</a>
+            <span>079 615 27 16</span>
+          </div>
+          <div class="person">
+            <strong>Léon Besse</strong>
+            <span>Co-chef de projet</span>
+            <a href="mailto:leon.besse@hes-so.ch">leon.besse@hes-so.ch</a>
+            <span>078 902 53 43</span>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <span>Un projet de <a href="https://sedniner.ch" target="_blank" rel="noopener">Sedniner Société Coopérative</a></span>
+        <span>Business Team Academy · HES-SO Valais · Lausanne, mai 2027</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body></html>
